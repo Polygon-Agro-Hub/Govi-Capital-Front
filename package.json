@@ -11,10 +11,14 @@
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.0",
     "flowbite-react": "^0.12.4",
     "next": "^15.4.2",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
