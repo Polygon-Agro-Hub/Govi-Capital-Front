@@ -2,50 +2,71 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserData {
   id: number;
+  title: string;
+  userName: string;
+  phoneCode: string;
+  phoneNumber: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  buyerType: string;
-  image: string | null;
+  nic: string;
+  address: string;
+  createdAt: string;
 }
 
 interface AuthState {
-  token: string | null;
-  tokenExpiration: number | null; // Unix timestamp
+  isAuthenticated: boolean;
   user: UserData | null;
+  token: string | null;
+  tokenExpiration: number | null;
+  error: string | null;
 }
 
-
-
-
 const initialState: AuthState = {
+  isAuthenticated: false,
+  user: null,
   token: null,
   tokenExpiration: null,
-  user: null,
+  error: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<{ token: string; user: UserData, tokenExpiration?: number }>) => {
-      state.token = action.payload.token;
+    setAuth: (state, action: PayloadAction<{ user: UserData; token: string; tokenExpiration: number }>) => {
+      state.isAuthenticated = true;
       state.user = action.payload.user;
-      state.tokenExpiration = action.payload.tokenExpiration || null;
+      state.token = action.payload.token;
+      state.tokenExpiration = action.payload.tokenExpiration;
+      state.error = null;
     },
     logout: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
       state.token = null;
       state.tokenExpiration = null;
-      state.user = null;
-    },
-    updateUser: (state, action: PayloadAction<Partial<UserData>>) => {
-      if (state.user) {
-        state.user = { ...state.user, ...action.payload };
+      state.error = null;
+      
+      // Clear localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('tokenExpiration');
+        localStorage.removeItem('userData');
       }
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    restoreAuth: (state, action: PayloadAction<{ token: string; tokenExpiration: number; userData: UserData }>) => {
+      state.isAuthenticated = true;
+      state.user = action.payload.userData;
+      state.token = action.payload.token;
+      state.tokenExpiration = action.payload.tokenExpiration;
     },
   },
 });
 
-export const { setCredentials, logout, updateUser } = authSlice.actions;
-
+export const { setAuth, logout, clearError, setError, restoreAuth } = authSlice.actions;
 export default authSlice.reducer;
