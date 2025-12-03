@@ -12,12 +12,14 @@ interface ClientLayoutWrapperProps {
 }
 
 const excludedRoutes = [
-    '/login'
+    '/login',
+    '/register',
 ];
 
 const publicRoutes = [
     '/login',
     '/',
+    '/register',
 ];
 
 const ClientLayoutWrapper = ({ children }: ClientLayoutWrapperProps) => {
