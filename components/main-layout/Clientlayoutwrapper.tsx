@@ -14,12 +14,14 @@ interface ClientLayoutWrapperProps {
 const excludedRoutes = [
     '/login',
     '/register',
+    '/verify-otp'
 ];
 
 const publicRoutes = [
     '/login',
     '/',
     '/register',
+    '/verify-otp'
 ];
 
 const ClientLayoutWrapper = ({ children }: ClientLayoutWrapperProps) => {

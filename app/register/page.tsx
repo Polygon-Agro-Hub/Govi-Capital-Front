@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Eye, EyeOff, Phone, Lock, User, Mail, MapPin, CreditCard, ChevronDown } from 'lucide-react';
-import { investmentRegister } from '@/services/auth-service';
+import { verifyUserDetails, sendOTPInSignup } from '@/services/auth-service';
 import left from '@/public/loginImg/leftImgLogin.png';
 import bg from '@/public/loginImg/loginbg.png';
+import OTPVerificationPage from '@/app/verify-otp/page';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -25,6 +26,12 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState('');
   const [showTitleDropdown, setShowTitleDropdown] = useState(false);
+  
+  // OTP states
+  const [showOTPVerification, setShowOTPVerification] = useState(false);
+  const [otpReferenceId, setOtpReferenceId] = useState('');
+  const [fullPhoneNumber, setFullPhoneNumber] = useState('');
+  const [pendingRegistrationData, setPendingRegistrationData] = useState<any>(null);
 
   const titles = [
     { value: 'Mr', label: 'Mr' },
@@ -48,7 +55,6 @@ export default function RegisterPage() {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '');
-    // Only allow if starts with 7 and max 9 digits
     if (value === '' || (value[0] === '7' && value.length <= 9)) {
       setFormData(prev => ({ ...prev, phoneNumber: value }));
     }
@@ -56,7 +62,6 @@ export default function RegisterPage() {
 
   const handleNicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase();
-    // Allow digits and 'V' at the end - either 12 digits OR 10 digits with V
     if (/^[0-9]{0,12}$/.test(value) || /^[0-9]{0,10}V?$/.test(value)) {
       setFormData(prev => ({ ...prev, nicNumber: value }));
     }
@@ -68,13 +73,11 @@ export default function RegisterPage() {
       return 'Please fill in all fields';
     }
 
-    // Phone number validation: must start with 7 and be exactly 9 digits
     const phoneRegex = /^7\d{8}$/;
     if (!phoneRegex.test(formData.phoneNumber)) {
       return 'Phone number must start with 7 and be 9 digits long';
     }
 
-    // NIC validation: either 12 digits OR 10 digits followed by 'V'
     const nicRegex12 = /^\d{12}$/;
     const nicRegex10 = /^\d{9}V$/;
     if (!nicRegex12.test(formData.nicNumber) && !nicRegex10.test(formData.nicNumber)) {
@@ -110,27 +113,68 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await investmentRegister({
-        title: formData.title,
-        userName: formData.name,
-        phoneNumber: formData.phoneNumber,
-        nic: formData.nicNumber,
-        email: formData.email,
-        address: formData.address,
-        password: formData.password,
-        confirmPassword: formData.password // Send same as password since we removed the field
-      });
+      // Step 1: Verify user details (check if user exists)
+      await verifyUserDetails(formData.email, formData.phoneNumber, '+94');
 
-      console.log('Registration successful:', response);
-      alert('Registration successful! Please login with your credentials.');
-      router.push('/login');
+      // Step 2: Send OTP
+      const otpResponse = await sendOTPInSignup(formData.phoneNumber, '+94');
+      
+      if (otpResponse && otpResponse.referenceId) {
+        // Store registration data for later use after OTP verification
+        setPendingRegistrationData({
+          title: formData.title,
+          userName: formData.name,
+          phoneNumber: formData.phoneNumber,
+          nic: formData.nicNumber,
+          email: formData.email,
+          address: formData.address,
+          password: formData.password,
+          confirmPassword: formData.password
+        });
+        
+        setOtpReferenceId(otpResponse.referenceId);
+        setFullPhoneNumber(`+94${formData.phoneNumber}`);
+        setShowOTPVerification(true);
+      } else {
+        setValidationError('Failed to send OTP. Please try again.');
+      }
     } catch (err: any) {
-      console.error('Registration failed:', err);
-      setValidationError(err.message || 'Registration failed. Please try again.');
+      console.error('Registration initiation failed:', err);
+      
+      // Handle specific error types
+      if (err.type === 'email_exists') {
+        setValidationError('This email address is already registered. Please use a different email or try logging in.');
+      } else if (err.type === 'phone_exists') {
+        setValidationError('This phone number is already registered. Please use a different phone number or try logging in.');
+      } else {
+        setValidationError(err.message || 'An error occurred. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  const handleOTPVerificationFailure = () => {
+    setShowOTPVerification(false);
+    setValidationError('OTP verification failed. Please try registering again.');
+  };
+
+  const handleOTPResend = (newReferenceId: string) => {
+    setOtpReferenceId(newReferenceId);
+  };
+
+  // If OTP verification is active, show OTP component
+  if (showOTPVerification) {
+    return (
+      <OTPVerificationPage
+        phoneNumber={fullPhoneNumber}
+        referenceId={otpReferenceId}
+        registrationData={pendingRegistrationData}
+        onVerificationFailure={handleOTPVerificationFailure}
+        onResendOTP={handleOTPResend}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
@@ -393,7 +437,7 @@ export default function RegisterPage() {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         />
                       </svg>
-                      Creating Account...
+                      Processing...
                     </>
                   ) : (
                     'Create Account'
