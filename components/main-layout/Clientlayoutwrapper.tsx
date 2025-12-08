@@ -14,7 +14,8 @@ interface ClientLayoutWrapperProps {
 const excludedRoutes = [
     '/login',
     '/register',
-    '/verify-otp'
+    '/verify-otp',
+    '/landingpage'
 ];
 
 const publicRoutes = [
