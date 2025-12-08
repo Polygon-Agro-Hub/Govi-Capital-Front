@@ -8,7 +8,7 @@ import { Eye, EyeOff, Phone, Lock, User, Mail, MapPin, CreditCard, ChevronDown }
 import { verifyUserDetails, sendOTPInSignup } from '@/services/auth-service';
 import left from '@/public/loginImg/leftImgLogin.png';
 import bg from '@/public/loginImg/loginbg.png';
-import OTPVerificationPage from '@/app/verify-otp/page';
+import OTPVerificationPage from '@/components/verify-otp/OTPVerificationPage';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState('');
   const [showTitleDropdown, setShowTitleDropdown] = useState(false);
-  
+
   // OTP states
   const [showOTPVerification, setShowOTPVerification] = useState(false);
   const [otpReferenceId, setOtpReferenceId] = useState('');
@@ -68,8 +68,8 @@ export default function RegisterPage() {
   };
 
   const validateForm = () => {
-    if (!formData.title || !formData.name || !formData.phoneNumber || !formData.nicNumber || 
-        !formData.email || !formData.address || !formData.password) {
+    if (!formData.title || !formData.name || !formData.phoneNumber || !formData.nicNumber ||
+      !formData.email || !formData.address || !formData.password) {
       return 'Please fill in all fields';
     }
 
@@ -118,7 +118,7 @@ export default function RegisterPage() {
 
       // Step 2: Send OTP
       const otpResponse = await sendOTPInSignup(formData.phoneNumber, '+94');
-      
+
       if (otpResponse && otpResponse.referenceId) {
         // Store registration data for later use after OTP verification
         setPendingRegistrationData({
@@ -131,7 +131,7 @@ export default function RegisterPage() {
           password: formData.password,
           confirmPassword: formData.password
         });
-        
+
         setOtpReferenceId(otpResponse.referenceId);
         setFullPhoneNumber(`+94${formData.phoneNumber}`);
         setShowOTPVerification(true);
@@ -140,7 +140,7 @@ export default function RegisterPage() {
       }
     } catch (err: any) {
       console.error('Registration initiation failed:', err);
-      
+
       // Handle specific error types
       if (err.type === 'email_exists') {
         setValidationError('This email address is already registered. Please use a different email or try logging in.');
@@ -191,7 +191,7 @@ export default function RegisterPage() {
       {/* Main Content Container */}
       <div className="relative z-10 w-full min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
         <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] min-h-[700px] md:min-h-[750px] shadow-2xl rounded-2xl md:rounded-3xl overflow-hidden">
-          
+
           {/* Left Side - Welcome Section */}
           <div className="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-4 sm:px-6 md:px-12 lg:px-16 py-6 sm:py-8 md:py-12">
             {/* Illustration Image */}
@@ -253,7 +253,7 @@ export default function RegisterPage() {
                       </span>
                       <ChevronDown className={`h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400 transition-transform ${showTitleDropdown ? 'rotate-180' : ''}`} />
                     </button>
-                    
+
                     {/* Dropdown Menu */}
                     {showTitleDropdown && (
                       <div className="absolute top-full left-0 right-0 mt-1 sm:mt-2 bg-white border border-gray-200 rounded-lg md:rounded-xl shadow-lg z-50 overflow-hidden">
