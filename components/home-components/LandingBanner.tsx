@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import bgBeforeLogin from '@/public/landingImg/Banner_bg(Before_Login).png'
+import heroImg from '@/public/landingImg/landing_image.png'
 
 const LandingBanner = () => {
     return (
@@ -78,7 +80,7 @@ const LandingBanner = () => {
 
                         <div className="absolute inset-0">
                             <Image
-                                src={"/landingImg/Banner bg(Before Login).png"}
+                                src={bgBeforeLogin}
                                 alt="Background"
                                 fill
                                 priority
@@ -89,7 +91,7 @@ const LandingBanner = () => {
                         <div className="absolute inset-0 flex items-end justify-center">
                             <div className="relative h-[95%] w-[95%]">
                                 <Image
-                                    src={"/landingImg/landing_image.png"}
+                                    src={heroImg}
                                     alt="Hero"
                                     fill
                                     priority

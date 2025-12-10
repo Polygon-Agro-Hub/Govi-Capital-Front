@@ -25,7 +25,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/');
+      router.push('/landingpage');
     }
   }, [isAuthenticated, router]);
 
@@ -134,7 +134,7 @@ export default function LoginPage() {
       {/* Main Content Container */}
       <div className="relative z-10 w-full min-h-screen flex items-center justify-center px-4 sm:px-6 py-8">
         <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] lg:h-[600px] shadow-2xl rounded-3xl overflow-hidden">
-          
+
           {/* Left Side - Welcome Section */}
           <div className="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-6 sm:px-12 lg:px-16 py-8 sm:py-12">
             {/* Illustration Image */}
