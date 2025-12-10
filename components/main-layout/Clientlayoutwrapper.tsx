@@ -15,7 +15,8 @@ const excludedRoutes = [
     '/login',
     '/register',
     '/verify-otp',
-    '/landingpage'
+    '/landingpage',
+    '/card-details',
 ];
 
 const publicRoutes = [
