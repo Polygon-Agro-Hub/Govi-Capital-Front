@@ -3,19 +3,10 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/store'
-
-export interface CardProps {
-    cropNameEnglish: string
-    farmerName: string
-    approvedId: number
-    totalValue: number
-    defineShares: number
-    cropGroupImage: string
-    existShare: number
-}
+import { type InvestmentCard } from "@/services/investment-service"
 
 interface ProjectCardProps {
-    item: CardProps;
+    item: InvestmentCard;
 }
 const ProjectCard: React.FC<ProjectCardProps> = ({ item }) => {
     const router = useRouter()

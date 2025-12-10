@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { getInvestmentCards, InvestmentCard } from '@/services/investment-service'
+import { RootState } from '@/store'
+import { useSelector } from 'react-redux'
 
 interface FilterBarProps {
     onSearch?: (filters: Record<string, string>) => void
@@ -15,6 +17,7 @@ const filterOptionsStatic: Record<string, string[]> = {
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({ onSearch }) => {
+    const token = useSelector((state: RootState) => state.auth.token)
     const [filters, setFilters] = useState<Record<string, string>>({
         crop: "",
         type: "",
@@ -28,7 +31,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onSearch }) => {
     useEffect(() => {
         const fetchCrops = async () => {
             try {
-                const cards: InvestmentCard[] = await getInvestmentCards()
+                const cards: InvestmentCard[] = await getInvestmentCards(token);
                 const crops = Array.from(
                     new Set(cards.map(card => (card.cropNameEnglish || "").trim()))
                 )
@@ -37,7 +40,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ onSearch }) => {
                 console.error("Error fetching crops:", error)
             }
         }
-
         fetchCrops()
     }, [])
 
