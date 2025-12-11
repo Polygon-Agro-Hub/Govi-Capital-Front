@@ -1,34 +1,42 @@
-import React from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import type { RootState } from '@/store'
-import { type InvestmentCard } from "@/services/investment-service"
+import React from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store';
+import { type InvestmentCard } from "@/services/investment-service";
 
 interface ProjectCardProps {
     item: InvestmentCard;
 }
-const ProjectCard: React.FC<ProjectCardProps> = ({ item }) => {
-    const router = useRouter()
-    const token = useSelector((state: RootState) => state.auth.token)
 
-    function getPrecentage(num1: number, num2: number) {
+const ProjectCard: React.FC<ProjectCardProps> = ({ item }) => {
+    const router = useRouter();
+    const token = useSelector((state: RootState) => state.auth.token);
+
+    const formatCurrency = (value: number) => {
+        return value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    };
+
+    function getPercentage(num1: number, num2: number) {
         if (num2 === 0 || num1 === 0) return 0;
         return Math.min(100, Math.max(0, Math.round((num1 / num2) * 100)));
     }
 
     function getPricePerShare() {
         if (item.totalValue === 0 || item.defineShares === 0) return 0;
-        return +(item.totalValue / item.defineShares).toFixed(3);
+        return item.totalValue / item.defineShares;
     }
 
     const handleClick = () => {
         if (!token) {
-            router.replace('/login')
-            return
+            router.replace('/login');
+            return;
         }
-        router.push(`/card-details?id=${item.approvedId}`)
-    }
+        router.push(`/investment-details?requestId=${item.approvedId}`);
+    };
 
     return (
         <div
@@ -36,30 +44,52 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ item }) => {
             onClick={handleClick}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleClick() }}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleClick(); }}
         >
+            {/* Image */}
             <div className="flex justify-center">
-                <Image src={item.cropGroupImage} alt={item.cropNameEnglish} width={160} height={120} className="h-28 w-auto object-contain" />
+                <Image
+                    src={item.cropGroupImage}
+                    alt={item.cropNameEnglish}
+                    width={160}
+                    height={120}
+                    className="h-28 w-auto object-contain"
+                />
             </div>
+
+            {/* Titles */}
             <div className="mt-5 text-center">
-                <h3 className="text-lg font-semibold text-gray-800">{item.cropNameEnglish}</h3>
-                <p className="mt-1.5 text-sm text-gray-500">By {item.farmerName}</p>
-                <p className="mt-3 text-sm font-medium text-gray-700"> 1 Share : LKR {getPricePerShare()}.00</p>
+                <h3 className="text-lg font-semibold text-gray-800">
+                    {item.cropNameEnglish}
+                </h3>
+
+                <p className="mt-1.5 text-sm text-gray-500">
+                    By {item.farmerName}
+                </p>
+
+                {/* Share Price (Formatted) */}
+                <p className="mt-3 text-sm font-medium text-gray-700">
+                    1 Share : LKR {formatCurrency(getPricePerShare())}
+                </p>
             </div>
+
+            {/* Progress Bar */}
             <div className="mt-5 text-center">
                 <p className="mb-2 text-sm font-medium text-blue-600">
-                    Invested : {getPrecentage(item.existShare, item.defineShares)}%
+                    Invested : {getPercentage(item.existShare, item.defineShares)}%
                 </p>
+
                 <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200">
                     <div
                         className="h-full rounded-full bg-blue-500 transition-all"
-                        style={{ width: `${getPrecentage(item.existShare, item.defineShares)}%` }}
+                        style={{
+                            width: `${getPercentage(item.existShare, item.defineShares)}%`
+                        }}
                     />
                 </div>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-export default ProjectCard
+export default ProjectCard;
