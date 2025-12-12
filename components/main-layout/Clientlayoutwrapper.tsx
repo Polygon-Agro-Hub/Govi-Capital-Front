@@ -17,6 +17,7 @@ const excludedRoutes = [
     '/verify-otp',
     '/landingpage',
     '/investment-details',
+    '/investment-details-popup'
 ];
 
 const publicRoutes = [

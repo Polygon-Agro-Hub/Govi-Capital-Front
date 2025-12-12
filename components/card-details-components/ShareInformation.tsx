@@ -1,12 +1,15 @@
 'use client';
 import React from 'react';
 import { InvestmentRequestInfo } from '@/services/investment-service';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     user: InvestmentRequestInfo;
 }
 
 const ShareInformation: React.FC<Props> = ({ user }) => {
+    const router = useRouter();
+
     const formatCurrency = (value: number) =>
         value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -21,11 +24,24 @@ const ShareInformation: React.FC<Props> = ({ user }) => {
     const dashArray = 2 * Math.PI * 40;
     const dashOffset = dashArray * (1 - investedPercent / 100);
 
+    const openPopup = () => {
+        const reqId = Number(user.requestId);
+        if (!Number.isFinite(reqId)) {
+            console.error('No valid requestId available');
+            return;
+        }
+        const query = new URLSearchParams({
+            requestId: String(reqId),
+            popup: '1',
+        }).toString();
+        router.push(`/investment-details?${query}`);
+    };
+
     return (
         <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 w-full">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-black">Shares' Information</h2>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors text-base shadow-sm">
+                <button onClick={openPopup} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors text-base shadow-sm">
                     Invest Now
                 </button>
             </div>

@@ -43,6 +43,19 @@ export type InvestmentRequestBundle = {
   ongoingCultivations: OngoingCultivation[];
 };
 
+export type CreateInvestmentPayload = {
+  reqId: number;
+  investerName: string;
+  nic: string;
+  nicFront?: string | null;
+  nicBack?: string | null;
+  shares: number;
+  totInvt: number;
+  expextreturnInvt: number;
+  internalRate: number;
+  bankSlip?: string | null;
+};
+
 export const getInvestmentCards = async (
   token: string | null,
 ): Promise<InvestmentCard[]> => {
@@ -73,5 +86,16 @@ export const getInvestmentRequestInfo = async (
     { headers: { Authorization: `Bearer ${token}` } },
   );
 
+  return res.data;
+};
+
+export const createInvestment = async (
+  token: string | null,
+  payload: CreateInvestmentPayload,
+): Promise<{ id: number; message: string }> => {
+  if (!token) throw new Error("Authentication required");
+  const res = await axios.post("/investment/post-investment", payload, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return res.data;
 };
