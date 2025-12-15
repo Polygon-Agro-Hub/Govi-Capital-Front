@@ -56,6 +56,19 @@ export type CreateInvestmentPayload = {
   bankSlip?: string | null;
 };
 
+export interface InvestmentSubmitPayload {
+  reqId: number;
+  investerName: string;
+  nic: string;
+  shares: number;
+  totInvt: number;
+  expextreturnInvt: number;
+  internalRate: number;
+  nicFront: File;
+  nicBack: File;
+  bankSlip: File;
+}
+
 export const getInvestmentCards = async (
   token: string | null,
 ): Promise<InvestmentCard[]> => {
@@ -89,13 +102,34 @@ export const getInvestmentRequestInfo = async (
   return res.data;
 };
 
-export const createInvestment = async (
-  token: string | null,
-  payload: CreateInvestmentPayload,
-): Promise<{ id: number; message: string }> => {
-  if (!token) throw new Error("Authentication required");
-  const res = await axios.post("/investment/post-investment", payload, {
+const hasFiles = (
+  p: Partial<InvestmentSubmitPayload>,
+): p is InvestmentSubmitPayload => {
+  return !!(p.nicFront && p.nicBack && p.bankSlip);
+};
+
+export async function createInvestment(
+  token: string,
+  p: Partial<InvestmentSubmitPayload>,
+): Promise<{ id: number; message: string }> {
+  if (!hasFiles(p)) {
+    throw new Error("Missing required files: nicFront, nicBack, bankSlip");
+  }
+
+  const fd = new FormData();
+  fd.append("reqId", String(p.reqId));
+  fd.append("investerName", p.investerName!);
+  fd.append("nic", p.nic!);
+  fd.append("shares", String(p.shares));
+  fd.append("totInvt", String(p.totInvt));
+  fd.append("expextreturnInvt", String(p.expextreturnInvt));
+  fd.append("internalRate", String(p.internalRate));
+  fd.append("nicFront", p.nicFront);
+  fd.append("nicBack", p.nicBack);
+  fd.append("bankSlip", p.bankSlip);
+
+  const res = await axios.post("/investment/post-investment", fd, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;
-};
+}
