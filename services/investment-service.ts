@@ -59,9 +59,9 @@ export type CreateInvestmentPayload = {
 export const getInvestmentCards = async (
   token: string | null,
 ): Promise<InvestmentCard[]> => {
-  if (!token) {
-    throw new Error("Authentication required");
-  }
+  // if (!token) {
+  //   throw new Error("Authentication required");
+  // }
 
   try {
     const response = await axios.get("/investment/get-all-investment", {
