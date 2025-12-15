@@ -14,22 +14,28 @@ const StepUploadSlip: React.FC<Props> = ({ onPrev, onSubmit, currentStep, onFile
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const handleFileChange = (f: File | null) => {
-        if (previewUrl) {
-            URL.revokeObjectURL(previewUrl);
-            setPreviewUrl(null);
+        if (!f) return setFile(null);
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+        if (!allowedTypes.includes(f.type)) {
+            alert('Only JPG, PNG, or PDF files are allowed');
+            return;
+        }
+
+        if (f.size > 5 * 1024 * 1024) {
+            alert('File size cannot exceed 5MB');
+            return;
         }
 
         setFile(f);
         onFileChange?.(f);
 
-        if (!f) return;
-
-        const isImage = f.type.startsWith('image/');
-        if (isImage) {
+        if (f.type.startsWith('image/')) {
             const url = URL.createObjectURL(f);
             setPreviewUrl(url);
         }
     };
+
 
     const removeFile = () => {
         setFile(null);

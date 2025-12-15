@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-
 type Props = {
     onNext: (data: { nameWithInitials: string; nic: string; nicFront?: File | null; nicBack?: File | null }) => void;
     onCancel: () => void;
@@ -20,62 +19,100 @@ const StepPersonalInfo: React.FC<Props> = ({ onNext, onCancel, currentStep }) =>
     const [isUploadingBack, setIsUploadingBack] = useState(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+    const sriLankanNICRegex = /^([0-9]{9}[vVxX]|[0-9]{12})$/;
+
+    const validateAndReadImage = (
+        file: File,
+        setFile: (f: File | null) => void,
+        setPreview: (p: string | null) => void,
+        setUploading: (v: boolean) => void,
+        errorKey: string
+    ) => {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+        if (!allowedTypes.includes(file.type)) {
+            setErrors(prev => ({
+                ...prev,
+                [errorKey]: 'Only JPG, JPEG or PNG images are allowed',
+            }));
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            setErrors(prev => ({
+                ...prev,
+                [errorKey]: 'File size must be less than 5MB',
+            }));
+            return;
+        }
+
+        setUploading(true);
+        setFile(file);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreview(reader.result as string);
+            setUploading(false);
+            setErrors(prev => ({ ...prev, [errorKey]: '' }));
+        };
+
+        reader.readAsDataURL(file);
+    };
+
     const handleFrontUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            setIsUploadingFront(true);
-            setNicFront(file);
+        if (!file) return;
 
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setNicFrontPreview(reader.result as string);
-                setIsUploadingFront(false);
-
-                setErrors({ ...errors, nicFront: '' });
-            };
-            reader.readAsDataURL(file);
-        }
+        validateAndReadImage(
+            file,
+            setNicFront,
+            setNicFrontPreview,
+            setIsUploadingFront,
+            'nicFront'
+        );
     };
 
     const handleBackUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            setIsUploadingBack(true);
-            setNicBack(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setNicBackPreview(reader.result as string);
-                setIsUploadingBack(false);
-            };
-            reader.readAsDataURL(file);
-        }
+        if (!file) return;
+
+        validateAndReadImage(
+            file,
+            setNicBack,
+            setNicBackPreview,
+            setIsUploadingBack,
+            'nicBack'
+        );
     };
 
     const removeFrontImage = () => {
         setNicFront(null);
         setNicFrontPreview(null);
+        setErrors(prev => ({ ...prev, nicFront: '' }));
     };
 
     const removeBackImage = () => {
         setNicBack(null);
         setNicBackPreview(null);
+        setErrors(prev => ({ ...prev, nicBack: '' }));
     };
 
     const handleNext = () => {
         const newErrors: { [key: string]: string } = {};
 
-        if (!nameWithInitials.trim()) {
+        if (!nameWithInitials.trim())
             newErrors.nameWithInitials = 'Name with initials is required';
-        }
-        if (!nic.trim()) {
+
+        if (!nic.trim())
             newErrors.nic = 'NIC number is required';
-        }
-        if (!nicFront) {
+        else if (!sriLankanNICRegex.test(nic.trim()))
+            newErrors.nic = 'Invalid NIC number';
+
+        if (!nicFront)
             newErrors.nicFront = 'NIC front image is required';
-        }
-        if (!nicBack) {
+
+        if (!nicBack)
             newErrors.nicBack = 'NIC back image is required';
-        }
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -122,7 +159,6 @@ const StepPersonalInfo: React.FC<Props> = ({ onNext, onCancel, currentStep }) =>
                             type="text"
                             className={`w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all ${errors.nameWithInitials ? 'border-red-500' : 'border-gray-300'
                                 }`}
-                            placeholder="H J K Karunanai"
                             value={nameWithInitials}
                             onChange={(e) => {
                                 setName(e.target.value);
@@ -142,7 +178,6 @@ const StepPersonalInfo: React.FC<Props> = ({ onNext, onCancel, currentStep }) =>
                             type="text"
                             className={`w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all ${errors.nic ? 'border-red-500' : 'border-gray-300'
                                 }`}
-                            placeholder="887600070V"
                             value={nic}
                             onChange={(e) => {
                                 setNic(e.target.value);
