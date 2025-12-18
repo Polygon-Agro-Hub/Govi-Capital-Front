@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Eye, EyeOff, Phone, Lock, User, Mail, MapPin, CreditCard, ChevronDown } from 'lucide-react';
 import { verifyUserDetails, sendOTPInSignup } from '@/services/auth-service';
-import left from '@/public/loginImg/leftImgLogin.png';
+import left from '@/public/RegisterImages/left.png';
 import bg from '@/public/loginImg/loginbg.png';
 import OTPVerificationPage from '@/components/verify-otp/OTPVerificationPage';
 
@@ -177,7 +177,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden font-inter">
       {/* Background Image */}
       <Image
         src={bg}
@@ -190,26 +190,28 @@ export default function RegisterPage() {
 
       {/* Main Content Container */}
       <div className="relative z-10 w-full min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
-        <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] min-h-[700px] md:min-h-[750px] shadow-2xl rounded-2xl md:rounded-3xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] min-h-[700px] md:min-h-[750px] lg:h-[700px] shadow-2xl rounded-2xl md:rounded-3xl overflow-hidden">
 
           {/* Left Side - Welcome Section */}
-          <div className="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-4 sm:px-6 md:px-12 lg:px-16 py-6 sm:py-8 md:py-12">
+          <div className="flex flex-col items-center justify-between flex-1 px-6 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 md:py-12 lg:py-16 font-inter" style={{ background: 'linear-gradient(to bottom right, #0A6DFF, #1625DD)' }}>
             {/* Illustration Image */}
-            <div className="mb-4 sm:mb-6 md:mb-8 relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-sm">
-              <Image
-                src={left}
-                alt="Investment Dashboard Illustration"
-                width={450}
-                height={300}
-                className="object-contain drop-shadow-2xl w-full h-auto"
-                priority
-              />
+            <div className="flex-1 flex items-center justify-center w-full">
+              <div className="relative w-full max-w-[280px] sm:max-w-[350px] md:max-w-md lg:max-w-lg">
+                <Image
+                  src={left}
+                  alt="Investment Dashboard Illustration"
+                  width={500}
+                  height={350}
+                  className="object-contain drop-shadow-2xl w-full h-auto"
+                  priority
+                />
+              </div>
             </div>
 
             {/* Welcome Text */}
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 text-white drop-shadow-lg">Join with us!</h1>
-              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/95 leading-relaxed px-2 sm:px-4">
+            <div className="text-left w-full mt-6 lg:mt-0">
+              <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-inter font-semibold mb-3 sm:mb-4 text-white drop-shadow-lg">Join with us!</h1>
+              <p className="text-sm sm:text-base md:text-base lg:text-lg text-white/95 leading-relaxed font-inter">
                 Get your assets in each project as stocks.
                 <br />
                 Get your return daily / monthly.
@@ -218,26 +220,26 @@ export default function RegisterPage() {
           </div>
 
           {/* Right Side - Registration Card */}
-          <div className="flex-1 flex items-center justify-center bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 lg:py-12 overflow-y-auto max-h-screen lg:max-h-none">
-            <div className="w-full max-w-md">
-              <div className="mb-4 sm:mb-6 md:mb-8">
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-blue-600 mb-2 sm:mb-3 md:mb-4">Register Today!</h2>
-                <p className="text-gray-600 text-xs sm:text-sm md:text-base">
+          <div className="flex-1 flex items-center justify-center bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 lg:py-12 overflow-y-auto max-h-screen lg:max-h-none font-inter">
+            <div className="w-full max-w-md h-full flex flex-col justify-center">
+              <div className="mb-5 sm:mb-6 md:mb-8">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl  text-blue-600 mb-2 sm:mb-3 md:mb-4 font-inter">Register Today!</h2>
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base font-inter">
                   Already have an account?{' '}
-                  <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold font-inter">
                     Login here
                   </Link>
                 </p>
-                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 mt-1 sm:mt-2">Get instant access to your dashboard.</p>
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 mt-1 sm:mt-2 font-inter">Get instant access to your dashboard.</p>
               </div>
 
               {validationError && (
-                <div className="mb-3 sm:mb-4 md:mb-6 p-2.5 sm:p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg md:rounded-xl">
-                  <p className="text-[10px] sm:text-xs md:text-sm text-red-600">{validationError}</p>
+                <div className="mb-4 sm:mb-5 md:mb-6 p-2.5 sm:p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg md:rounded-xl">
+                  <p className="text-[10px] sm:text-xs md:text-sm text-red-600 font-inter">{validationError}</p>
                 </div>
               )}
 
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-4 sm:space-y-4 md:space-y-5">
                 {/* Title and Name - 1:3 ratio */}
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   {/* Custom Title Dropdown */}
@@ -246,7 +248,7 @@ export default function RegisterPage() {
                       type="button"
                       onClick={() => setShowTitleDropdown(!showTitleDropdown)}
                       disabled={loading}
-                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 bg-gray-100 flex items-center justify-between hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 bg-gray-100 flex items-center justify-between hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed font-inter"
                     >
                       <span className={formData.title ? 'text-gray-900' : 'text-gray-400'}>
                         {formData.title || 'Title'}
@@ -262,7 +264,7 @@ export default function RegisterPage() {
                             key={title.value}
                             type="button"
                             onClick={() => handleTitleSelect(title.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-left text-xs sm:text-sm text-gray-900 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-left text-xs sm:text-sm text-gray-900 hover:bg-blue-50 hover:text-blue-600 transition-colors font-inter"
                           >
                             {title.label}
                           </button>
@@ -282,7 +284,7 @@ export default function RegisterPage() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Name with Initials"
-                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100"
+                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                         disabled={loading}
                       />
                     </div>
@@ -296,7 +298,7 @@ export default function RegisterPage() {
                       type="text"
                       value="+94"
                       readOnly
-                      className="w-full px-2 sm:px-3 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl text-xs sm:text-sm text-gray-900 bg-gray-100 text-center font-medium"
+                      className="w-full px-2 sm:px-3 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl text-xs sm:text-sm text-gray-900 bg-gray-100 text-center font-medium font-inter"
                     />
                   </div>
                   <div className="w-full sm:w-3/4">
@@ -311,7 +313,7 @@ export default function RegisterPage() {
                         onChange={handlePhoneChange}
                         placeholder="7XXXXXXXX"
                         maxLength={9}
-                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100"
+                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                         disabled={loading}
                       />
                     </div>
@@ -332,7 +334,7 @@ export default function RegisterPage() {
                         onChange={handleNicChange}
                         placeholder="NIC (12 digits or 10+V)"
                         maxLength={12}
-                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100"
+                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                         disabled={loading}
                       />
                     </div>
@@ -348,7 +350,7 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Email Address"
-                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100"
+                        className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                         disabled={loading}
                       />
                     </div>
@@ -367,7 +369,7 @@ export default function RegisterPage() {
                       value={formData.address}
                       onChange={handleChange}
                       placeholder="Address"
-                      className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100"
+                      className="w-full pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                       disabled={loading}
                     />
                   </div>
@@ -385,7 +387,7 @@ export default function RegisterPage() {
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Password"
-                      className="w-full pl-9 sm:pl-11 md:pl-12 pr-10 sm:pr-12 py-2.5 sm:py-3 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100"
+                      className="w-full pl-9 sm:pl-11 md:pl-12 pr-10 sm:pr-12 py-2.5 sm:py-3 md:py-3.5 border-none rounded-lg md:rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-xs sm:text-sm text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                       disabled={loading}
                     />
                     <button
@@ -404,7 +406,7 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Password Requirements */}
-                <div className="flex items-start gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-[#52739B] p-2 sm:p-2.5 md:p-3 rounded-lg">
+                <div className="flex items-start gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-[#52739B] p-2 sm:p-2.5 md:p-3 rounded-lg font-inter">
                   <div className="mt-0.5 text-sm sm:text-base">ℹ️</div>
                   <p>Include at least 8 characters and include a number, a letter, and a special character.</p>
                 </div>
@@ -413,7 +415,7 @@ export default function RegisterPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 sm:py-3 md:py-3.5 px-4 rounded-lg md:rounded-xl transition-colors duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg"
+                  className="w-full bg-[#0C63FA] hover:bg-blue-700 text-white font-semibold py-2.5 sm:py-3 md:py-3.5 lg:py-4 px-4 rounded-lg md:rounded-xl transition-colors duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg font-inter"
                 >
                   {loading ? (
                     <>

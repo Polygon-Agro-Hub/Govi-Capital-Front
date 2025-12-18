@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { verifyOTP, sendOTPInSignup, investmentRegister } from '@/services/auth-service';
-import left from '@/public/loginImg/leftImgLogin.png';
+import left from '@/public/otpImg/left.png';
 import bg from '@/public/loginImg/loginbg.png';
 
 interface OTPVerificationPageProps {
@@ -191,7 +191,7 @@ export default function OTPVerificationPage({
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden font-inter">
             {/* Background Image */}
             <Image
                 src={bg}
@@ -204,26 +204,28 @@ export default function OTPVerificationPage({
 
             {/* Main Content Container */}
             <div className="relative z-10 w-full min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
-                <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] min-h-[700px] md:min-h-[750px] shadow-2xl rounded-2xl md:rounded-3xl overflow-hidden">
+                <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] min-h-[700px] md:min-h-[750px] lg:h-[700px] shadow-2xl rounded-2xl md:rounded-3xl overflow-hidden">
 
                     {/* Left Side - Welcome Section */}
-                    <div className="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-4 sm:px-6 md:px-12 lg:px-16 py-6 sm:py-8 md:py-12">
+                    <div className="flex flex-col items-center justify-between flex-1 px-6 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 md:py-12 lg:py-16 font-inter" style={{ background: 'linear-gradient(to bottom right, #0A6DFF, #1625DD)' }}>
                         {/* Illustration Image */}
-                        <div className="mb-4 sm:mb-6 md:mb-8 relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-sm">
-                            <Image
-                                src={left}
-                                alt="Investment Dashboard Illustration"
-                                width={450}
-                                height={300}
-                                className="object-contain drop-shadow-2xl w-full h-auto"
-                                priority
-                            />
+                        <div className="flex-1 flex items-center justify-center w-full">
+                            <div className="relative w-full max-w-[280px] sm:max-w-[350px] md:max-w-md lg:max-w-lg">
+                                <Image
+                                    src={left}
+                                    alt="Investment Dashboard Illustration"
+                                    width={500}
+                                    height={350}
+                                    className="object-contain drop-shadow-2xl w-full h-auto"
+                                    priority
+                                />
+                            </div>
                         </div>
 
                         {/* Welcome Text */}
-                        <div className="text-center">
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 text-white drop-shadow-lg">Almost Done!</h1>
-                            <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/95 leading-relaxed px-2 sm:px-4">
+                        <div className="text-left w-full mt-2 lg:mt-0">
+                            <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-inter font-semibold mb-3 sm:mb-4 text-white drop-shadow-lg">Almost Done!</h1>
+                            <p className="text-sm sm:text-base md:text-base lg:text-lg text-white/95 leading-relaxed font-inter">
                                 Just one quick step! Check your messages
                                 <br />
                                 and drop in the code.
@@ -232,23 +234,23 @@ export default function OTPVerificationPage({
                     </div>
 
                     {/* Right Side - OTP Verification Card */}
-                    <div className="flex-1 flex items-center justify-center bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 lg:py-12 overflow-y-auto max-h-screen lg:max-h-none">
-                        <div className="w-full max-w-md">
-                            <div className="mb-4 sm:mb-6 md:mb-8">
-                                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-blue-600 mb-2 sm:mb-3 md:mb-4">Verify Your Account!</h2>
-                                <p className="text-gray-600 text-xs sm:text-sm md:text-base mb-2">
-                                    We have sent an OTP Code to: <span className="font-semibold text-gray-900">{phoneNumber}</span>
+                    <div className="flex-1 flex items-center justify-center bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 lg:py-12 overflow-y-auto max-h-screen lg:max-h-none font-inter">
+                        <div className="w-full max-w-md h-full flex flex-col justify-center">
+                            <div className="mb-6 sm:mb-8 md:mb-10">
+                                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-600 mb-3 sm:mb-4 font-inter">Verify Your Account!</h2>
+                                <p className="text-gray-600 text-xs sm:text-sm md:text-base mb-2 font-inter">
+                                    We have sent an OTP Code to: <span className="font-semibold text-gray-900 font-inter">{phoneNumber}</span>
                                 </p>
                             </div>
 
                             {error && (
-                                <div className="mb-3 sm:mb-4 md:mb-6 p-2.5 sm:p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg md:rounded-xl">
-                                    <p className="text-[10px] sm:text-xs md:text-sm text-red-600">{error}</p>
+                                <div className="mb-5 sm:mb-6 md:mb-8 p-2.5 sm:p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg md:rounded-xl">
+                                    <p className="text-[10px] sm:text-xs md:text-sm text-red-600 font-inter">{error}</p>
                                 </div>
                             )}
 
                             {/* OTP Input Boxes */}
-                            <div className="mb-6 sm:mb-8 md:mb-10">
+                            <div className="mb-8 sm:mb-10 md:mb-12">
                                 <div className="flex gap-3 sm:gap-4 justify-start">
                                     {otp.map((digit, index) => (
                                         <div key={index} className="relative">
@@ -263,7 +265,7 @@ export default function OTPVerificationPage({
                                                 onPaste={index === 0 ? handlePaste : undefined}
                                                 onFocus={() => setFocusedIndex(index)}
                                                 disabled={loading}
-                                                className={`w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 text-center text-2xl sm:text-3xl md:text-4xl font-light bg-gray-100 rounded-lg md:rounded-xl transition-all outline-none
+                                                className={`w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 text-center text-2xl sm:text-3xl md:text-4xl font-light bg-gray-100 rounded-lg md:rounded-xl transition-all outline-none font-inter
                           ${focusedIndex === index ? 'border-2 border-blue-500' : 'border-2 border-transparent'}
                           disabled:opacity-50 disabled:cursor-not-allowed`}
                                                 style={{
@@ -273,7 +275,7 @@ export default function OTPVerificationPage({
                                             />
                                             {/* X placeholder */}
                                             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                                <span className={`text-2xl sm:text-3xl md:text-4xl font-light ${digit ? 'text-gray-900' : 'text-gray-400'}`}>
+                                                <span className={`text-2xl sm:text-3xl md:text-4xl font-light font-inter ${digit ? 'text-gray-900' : 'text-gray-400'}`}>
                                                     {digit || 'X'}
                                                 </span>
                                             </div>
@@ -283,19 +285,19 @@ export default function OTPVerificationPage({
                             </div>
 
                             {/* Resend Timer */}
-                            <div className="mb-6 sm:mb-8 text-left">
-                                <p className="text-xs sm:text-sm md:text-base">
+                            <div className="mb-8 sm:mb-10 text-left">
+                                <p className="text-xs sm:text-sm md:text-base font-inter">
                                     {canResend ? (
                                         <button
                                             onClick={handleResend}
                                             disabled={loading}
-                                            className="text-blue-600 hover:text-blue-700 font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="text-blue-600 hover:text-blue-700 font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed font-inter"
                                         >
                                             Resend OTP
                                         </button>
                                     ) : (
-                                        <span className="text-gray-600">
-                                            Resend in <span className="font-semibold text-blue-600">{formatTime(timer)}</span>
+                                        <span className="text-gray-600 font-inter">
+                                            Resend in <span className="font-semibold text-blue-600 font-inter">{formatTime(timer)}</span>
                                         </span>
                                     )}
                                 </p>
@@ -305,7 +307,7 @@ export default function OTPVerificationPage({
                             <button
                                 onClick={handleVerify}
                                 disabled={loading || otp.some(d => !d)}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 sm:py-3 md:py-3.5 px-4 rounded-lg md:rounded-xl transition-colors duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg"
+                                className="w-full bg-[#0C63FA] hover:bg-blue-700 text-white font-semibold py-2.5 sm:py-3 md:py-3.5 lg:py-4 px-4 rounded-lg md:rounded-xl transition-colors duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg font-inter"
                             >
                                 {loading ? (
                                     <>
@@ -339,7 +341,7 @@ export default function OTPVerificationPage({
                             {/* Back to Registration */}
                             <button
                                 onClick={onVerificationFailure}
-                                className="w-full mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm sm:text-base"
+                                className="w-full mt-4 sm:mt-5 text-blue-600 hover:text-blue-700 font-medium text-sm sm:text-base font-inter"
                             >
                                 Back to Registration
                             </button>
