@@ -20,8 +20,8 @@ const InvestmentInformation: React.FC<Props> = ({ user }) => {
 
     const rows = [
         { label: 'Crop', value: user.cropNameEnglish || '-' },
-        { label: 'Variety', value: user.varietyNameEnglish || '-' },
-        { label: 'Certification', value: user.srtName || '-' },
+        // { label: 'Variety', value: user.varietyNameEnglish || '-' },
+        // { label: 'Certification', value: user.srtName || '-' },
         { label: 'Extent', value: extentText },
         { label: 'Expected Investment', value: user.totValue ? `LKR ${safeNumber(user.totValue).toLocaleString()}` : '-' },
         { label: 'Expected Yield', value: user.expectedYield ? `${safeNumber(user.expectedYield)} kg` : '-' },

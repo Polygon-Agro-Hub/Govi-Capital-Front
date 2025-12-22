@@ -22,9 +22,9 @@ export type InvestmentRequestInfo = {
   expectedYield?: number | null;
   startDate?: string | null;
   totValue: number | string;
-  varietyNameEnglish?: string | null;
+  // varietyNameEnglish?: string | null;
   cropNameEnglish?: string | null;
-  srtName?: string | null;
+  // srtName?: string | null;
   defineShares: number;
   minShare: number | string;
   maxShare: number | string;
