@@ -11,7 +11,7 @@ import bg from '@/public/loginImg/loginbg.png';
 import OTPVerificationPage from '@/components/verify-otp/OTPVerificationPage';
 
 export default function RegisterPage() {
-  const router = useRouter();
+  // const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
     name: '',

@@ -10,7 +10,7 @@ import { getInvestmentRequestInfo, type InvestmentRequestInfo, type OngoingCulti
 import Popup from '@/components/investment-details-popup/Popup';
 
 const Page = () => {
-    const router = useRouter();
+    // const router = useRouter();
     const params = useSearchParams();
     const requestId = params.get('requestId');
     const token = useSelector((state: RootState) => state.auth.token);

@@ -11,7 +11,6 @@ import profileIcon from "@/public/landingImg/User_profile.png"
 import { getInvestmentCards, type InvestmentCard } from "@/services/investment-service"
 import { useDispatch } from "react-redux"
 import { logout } from "@/store/slices/authSlice"
-import { ToyBrick } from "lucide-react"
 
 const LandingPage = () => {
     const [cards, setCards] = useState<InvestmentCard[]>([])
