@@ -44,10 +44,10 @@ const Page = () => {
 
     if (!info) return <p className="text-center py-20">Loading...</p>;
 
-    const closePopup = () => {
-        const qs = new URLSearchParams({ requestId: String(info.requestId) });
-        router.push(`/investment-details?${qs.toString()}`);
-    };
+    // const closePopup = () => {
+    //     const qs = new URLSearchParams({ requestId: String(info.requestId) });
+    //     router.push(`/investment-details?${qs.toString()}`);
+    // };
 
     const totalShares = Number((info as any).defineShares || 0);
     const totalValue = Number((info as any).totValue || 0);
