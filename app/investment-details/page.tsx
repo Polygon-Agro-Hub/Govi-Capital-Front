@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -9,7 +9,8 @@ import ShareInformation from '@/components/card-details-components/ShareInformat
 import { getInvestmentRequestInfo, type InvestmentRequestInfo, type OngoingCultivation } from '@/services/investment-service';
 import Popup from '@/components/investment-details-popup/Popup';
 
-const Page = () => {
+// Create a separate component for the main content
+function InvestmentDetailsContent() {
     // const router = useRouter();
     const params = useSearchParams();
     const requestId = params.get('requestId');
@@ -72,6 +73,19 @@ const Page = () => {
                 <Popup requestId={Number(info.requestId)} oneSharePrice={computedOneShare} minShare={computedMinShare} />
             )}
         </div>
+    );
+}
+
+// Main page component wrapped in Suspense
+const Page = () => {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <p className="text-center py-20">Loading...</p>
+            </div>
+        }>
+            <InvestmentDetailsContent />
+        </Suspense>
     );
 };
 
