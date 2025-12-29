@@ -136,23 +136,26 @@ export default function LoginPage() {
         <div className="flex flex-col lg:flex-row items-stretch w-full max-w-[1400px] lg:h-[600px] shadow-2xl rounded-3xl overflow-hidden">
 
           {/* Left Side - Welcome Section */}
-          <div className="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-6 sm:px-12 lg:px-16 py-8 sm:py-12">
+          {/* Left Side - Welcome Section */}
+          <div className="flex flex-col items-center justify-between flex-1 px-6 sm:px-12 lg:px-16 py-8 sm:py-12 lg:py-16" style={{ background: 'linear-gradient(to bottom right, #0A6DFF, #1625DD)' }}>
             {/* Illustration Image */}
-            <div className="mb-6 sm:mb-8 relative w-full max-w-[280px] sm:max-w-sm md:max-w-md">
-              <Image
-                src={left}
-                alt="Investment Dashboard Illustration"
-                width={450}
-                height={300}
-                className="object-contain drop-shadow-2xl w-full h-auto"
-                priority
-              />
+            <div className="flex-1 flex items-center justify-center w-full">
+              <div className="relative w-full max-w-[350px] sm:max-w-md lg:max-w-lg">
+                <Image
+                  src={left}
+                  alt="Investment Dashboard Illustration"
+                  width={500}
+                  height={350}
+                  className="object-contain drop-shadow-2xl w-full h-auto"
+                  priority
+                />
+              </div>
             </div>
 
             {/* Welcome Text */}
-            <div className="text-center">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 text-white drop-shadow-lg">Welcome!</h1>
-              <p className="text-sm sm:text-base lg:text-lg text-white/95 leading-relaxed px-4">
+            <div className="text-left w-full mt-8 lg:mt-0">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-inter font-semibold mb-3 sm:mb-4 text-white drop-shadow-lg ml-10">Welcome!</h1>
+              <p className="text-sm sm:text-base lg:text-lg text-white/95 font-inter leading-relaxed ml-10">
                 Get your assets in each project as stocks.
                 <br />
                 Get your return daily / monthly.
@@ -161,26 +164,26 @@ export default function LoginPage() {
           </div>
 
           {/* Right Side - Login Card */}
-          <div className="flex-1 flex items-center justify-center bg-white px-6 sm:px-8 lg:px-12 py-8 sm:py-10 lg:py-12">
-            <div className="w-full max-w-md">
-              <div className="mb-6 sm:mb-8 lg:mb-10">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-3 sm:mb-4">Log In</h2>
-                <p className="text-gray-600 text-sm sm:text-base">
+          <div className="flex-1 flex items-center justify-center bg-white px-6 sm:px-8 lg:px-12 py-8 sm:py-10 lg:py-16 font-inter">
+            <div className="w-full max-w-md h-full flex flex-col justify-center">
+              <div className="mb-8 sm:mb-10 lg:mb-12">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-blue-600 mb-3 sm:mb-4 font-inter">Log In</h2>
+                <p className="text-gray-600 text-sm sm:text-base font-inter">
                   Don't have an account?{' '}
-                  <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-semibold font-inter">
                     Create Account
                   </Link>
                 </p>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">It will take less than a minute.</p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2 font-inter">It will take less than a minute.</p>
               </div>
 
               {(error || validationError) && (
-                <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl">
-                  <p className="text-xs sm:text-sm text-red-600">{error || validationError}</p>
+                <div className="mb-6 sm:mb-8 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <p className="text-xs sm:text-sm text-red-600 font-inter">{error || validationError}</p>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 lg:space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 lg:space-y-7">
                 <div>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none">
@@ -193,7 +196,7 @@ export default function LoginPage() {
                       value={phoneNumber}
                       onChange={handlePhoneChange}
                       placeholder="Phone Number (e.g. 07X XXXX XXX)"
-                      className="w-full pl-12 sm:pl-14 pr-4 sm:pr-5 py-3 sm:py-3.5 lg:py-4 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm sm:text-base text-gray-900 placeholder-gray-400 bg-gray-100"
+                      className="w-full pl-12 sm:pl-14 pr-4 sm:pr-5 py-3 sm:py-3.5 lg:py-4 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm sm:text-base text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                       disabled={loading}
                     />
                   </div>
@@ -211,7 +214,7 @@ export default function LoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
-                      className="w-full pl-12 sm:pl-14 pr-12 sm:pr-14 py-3 sm:py-3.5 lg:py-4 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm sm:text-base text-gray-900 placeholder-gray-400 bg-gray-100"
+                      className="w-full pl-12 sm:pl-14 pr-12 sm:pr-14 py-3 sm:py-3.5 lg:py-4 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm sm:text-base text-gray-900 placeholder-gray-400 bg-gray-100 font-inter"
                       disabled={loading}
                     />
                     <button
@@ -232,7 +235,7 @@ export default function LoginPage() {
                 <div className="flex justify-end">
                   <Link
                     href="/forgot-password"
-                    className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1.5 sm:gap-2"
+                    className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1.5 sm:gap-2 font-inter"
                   >
                     <span className="text-blue-600">ℹ️</span>
                     Forgot your Password?
@@ -242,7 +245,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 sm:py-3.5 lg:py-4 px-4 sm:px-6 rounded-xl transition-colors duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl text-base sm:text-lg"
+                  className="w-full bg-[#0C63FA] hover:bg-blue-700 text-white font-semibold py-3 sm:py-3.5 lg:py-4 px-4 sm:px-6 rounded-xl transition-colors duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl text-base sm:text-lg font-inter"
                 >
                   {loading ? (
                     <>

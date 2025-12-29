@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -9,8 +9,9 @@ import ShareInformation from '@/components/card-details-components/ShareInformat
 import { getInvestmentRequestInfo, type InvestmentRequestInfo, type OngoingCultivation } from '@/services/investment-service';
 import Popup from '@/components/investment-details-popup/Popup';
 
-const Page = () => {
-    const router = useRouter();
+// Create a separate component for the main content
+function InvestmentDetailsContent() {
+    // const router = useRouter();
     const params = useSearchParams();
     const requestId = params.get('requestId');
     const token = useSelector((state: RootState) => state.auth.token);
@@ -44,10 +45,10 @@ const Page = () => {
 
     if (!info) return <p className="text-center py-20">Loading...</p>;
 
-    const closePopup = () => {
-        const qs = new URLSearchParams({ requestId: String(info.requestId) });
-        router.push(`/investment-details?${qs.toString()}`);
-    };
+    // const closePopup = () => {
+    //     const qs = new URLSearchParams({ requestId: String(info.requestId) });
+    //     router.push(`/investment-details?${qs.toString()}`);
+    // };
 
     const totalShares = Number((info as any).defineShares || 0);
     const totalValue = Number((info as any).totValue || 0);
@@ -72,6 +73,19 @@ const Page = () => {
                 <Popup requestId={Number(info.requestId)} oneSharePrice={computedOneShare} minShare={computedMinShare} />
             )}
         </div>
+    );
+}
+
+// Main page component wrapped in Suspense
+const Page = () => {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <p className="text-center py-20">Loading...</p>
+            </div>
+        }>
+            <InvestmentDetailsContent />
+        </Suspense>
     );
 };
 

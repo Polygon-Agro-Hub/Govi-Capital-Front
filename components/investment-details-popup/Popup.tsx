@@ -6,22 +6,12 @@ import { RootState } from '@/store';
 import StepPersonalInfo from '@/components/investment-details-popup-components/StepPersonalInfo';
 import StepSharesInfo from '@/components/investment-details-popup-components/StepSharesInfo';
 import StepUploadSlip from '@/components/investment-details-popup-components/StepUploadSlip';
-import { createInvestment, type CreateInvestmentPayload } from '@/services/investment-service';
+import { createInvestment, InvestmentSubmitPayload } from '@/services/investment-service';
 
 type PopupProps = {
     requestId: number;
     oneSharePrice: number;
     minShare: number;
-};
-
-const fileToBase64 = (file: File | null | undefined): Promise<string | null> => {
-    return new Promise((resolve) => {
-        if (!file) return resolve(null);
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = () => resolve(null);
-        reader.readAsDataURL(file);
-    });
 };
 
 const Popup: React.FC<PopupProps> = ({ requestId, oneSharePrice, minShare }) => {
@@ -44,27 +34,25 @@ const Popup: React.FC<PopupProps> = ({ requestId, oneSharePrice, minShare }) => 
             console.error('Missing token or form data');
             return;
         }
+
         try {
             setSubmitting(true);
 
-            const nicFrontB64 = await fileToBase64(personal.nicFront ?? null);
-            const nicBackB64 = await fileToBase64(personal.nicBack ?? null);
-            const bankSlipB64 = await fileToBase64(bankSlip ?? null);
-
-            const payload: CreateInvestmentPayload = {
+            const payload: Partial<InvestmentSubmitPayload> = {
                 reqId: requestId,
                 investerName: personal.nameWithInitials,
                 nic: personal.nic,
-                nicFront: nicFrontB64,
-                nicBack: nicBackB64,
                 shares: shares.shares,
                 totInvt: shares.totalInvestment,
                 expextreturnInvt: shares.expectedReturn,
                 internalRate: shares.irr,
-                bankSlip: bankSlipB64,
+                nicFront: personal.nicFront!,
+                nicBack: personal.nicBack!,
+                bankSlip: bankSlip!,
             };
 
             await createInvestment(token, payload);
+
             closePopup();
         } catch (e) {
             console.error('Failed to create investment', e);
