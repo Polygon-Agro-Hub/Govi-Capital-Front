@@ -1,3 +1,5 @@
+/*
+//Old Proxy Starts
 import type { NextConfig } from "next";
 import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
@@ -52,3 +54,40 @@ export default nextConfig;
 // };
 
 // export default withFlowbiteReact(nextConfig);
+//Old Proxy ends
+*/
+
+//New Proxy writen by samitha at 31st night 2026
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/404",
+        destination: "/error/404",
+        permanent: false,
+      },
+    ];
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  
+  // GovCapital runs at root domain - no basePath needed
+  trailingSlash: true,
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+};
+
+export default nextConfig;
